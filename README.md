@@ -1,7 +1,7 @@
 # PricePal
 
 Overview:
-The Price Tracker Bot is a Python-based tool designed to track and compare product prices across multiple e-commerce websites. By periodically querying selected websites, the bot collects price data for specified products and saves this information to a CSV file. Users can then visualize price trends over time, identify price drops, and compare current prices across different platforms through interactive plots generated using Seaborn and Matplotlib libraries.
+The PricePal is a Python-based tool designed to track and compare product prices across multiple e-commerce websites. By periodically querying selected websites, the bot collects price data for specified products and saves this information to a CSV file. Users can then visualize price trends over time, identify price drops, and compare current prices across different platforms through interactive plots generated using Seaborn and Matplotlib libraries.
 
 Features:
 
