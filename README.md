@@ -2,58 +2,80 @@
 
 The PricePal is a Python-based tool designed to track and compare product prices across multiple e-commerce websites. By periodically querying selected websites, the bot collects price data for specified products and saves this information to a CSV file. Users can then visualize price trends over time, identify price drops, and compare current prices across different platforms through interactive plots generated using Seaborn and Matplotlib libraries.
 
-# FEATURES
+# TECHNOLOGY
 
-# Search Products:
+# Programming Language
 
-Query specific products on multiple e-commerce websites (Shpresa, 3vFejzo, Neptun).
-Retrieve the current price and URL for each product.
+Python: 
 
-# Price Comparison:
+The core programming language used for developing the application.
 
+# Web Scraping
 
-Compare prices for a given product across different websites.
-Identify the cheapest and most expensive prices.
+BeautifulSoup: A Python library used to parse HTML and XML documents for web scraping.
 
+Requests: A simple HTTP library for making requests to fetch web pages.
 
-# Price History Visualization:
+Selenium WebDriver: A browser automation tool used for web scraping dynamic content that requires JavaScript execution.
 
+# Data Processing and Analysis
 
-Generate line plots to visualize the price history of selected products.
-Highlight significant price drops over time.
-Create bar plots to compare the latest prices across websites.
+Pandas: A powerful data manipulation and analysis library used for handling tabular data.
 
+Datetime: A module for manipulating dates and times, essential for timestamping price data.
 
-# Data Storage:
+# Data Visualization
 
+Matplotlib: A plotting library used for creating static, animated, and interactive visualizations in Python.
 
-Save collected price data to a CSV file.
-Load and process historical data for visualization.
+Seaborn: A statistical data visualization library based on Matplotlib, used for creating visually appealing and informative plots.
 
+# User Interface
 
-# Interactive Console Interface:
+Command Line Interface (CLI): The primary user interface for interacting with the application.
 
+# Data Storage
 
-User-friendly menu for interacting with the bot.
-Options to search products, compare prices, visualize price history, and change the language.
+CSV (Comma-Separated Values): A simple file format used to store tabular data in plain text form. The project's price history data is stored in a CSV file.
 
+# Miscellaneous
 
-# Modules and Libraries
+OS Module: Used for interacting with the operating system, particularly for checking file existence.
 
-# CSV: 
-For reading and writing price data.
+Collections: Specifically, the defaultdict from the collections module, used for handling missing keys in dictionaries.
 
+# Project-Specific Modules
 
-# OS: 
-To check file existence.
+shpresa.py: Contains functions for scraping product data from the Shpresa website.
 
-# Datetime: 
-For timestamping collected data.
+fejzo.py: Contains functions for scraping product data from the 3vFejzo website.
 
-# Matplotlib & Seaborn: 
-For creating visual plots.
+neptun.py: Contains functions for scraping product data from the Neptun website.
 
-# Pandas: 
-For data manipulation and analysis.
+# Key Functions and Features
 
-Shpresa, 3vFejzo, Neptun: Custom modules for querying respective websites.
+Product Search: Allows users to search for a product across three different websites.
+
+Price Comparison: Compares the price of a product across the three websites and identifies the cheapest and most expensive options.
+
+Price History: Displays the historical price data of a product over time, with visualizations.
+
+Language Translation: Provides basic translations between English and Spanish.
+
+Data Saving: Saves the search results and price history data to a CSV file.
+
+# Visualization Enhancements
+
+# Interactive Plots: 
+
+Implemented using Matplotlib and Seaborn to provide dynamic and interactive visualizations.
+
+# Annotations: 
+
+Added to the plots to highlight significant price changes and drops.
+
+# Web Scraping Details:
+
+Static Content: Scraped using BeautifulSoup and Requests for straightforward HTML content.
+
+Dynamic Content: Handled using Selenium WebDriver to automate browsers and scrape content that requires JavaScript execution to load fully.
