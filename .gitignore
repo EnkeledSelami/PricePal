@@ -1,0 +1,11 @@
+.idea/
+.venv/
+chrome/
+chromedriver/
+__pycache__/
+*.py[cod]
+*.exe
+se-metadata.json
+.env
+.env.*
+!.env.example
