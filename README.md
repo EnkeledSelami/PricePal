@@ -1,81 +1,51 @@
 # PricePal
 
-The PricePal is a Python-based tool designed to track and compare product prices across multiple e-commerce websites. By periodically querying selected websites, the bot collects price data for specified products and saves this information to a CSV file. Users can then visualize price trends over time, identify price drops, and compare current prices across different platforms through interactive plots generated using Seaborn and Matplotlib libraries.
+PricePal is a Python desktop app for finding and comparing product prices from Albanian online stores. It can also save price observations locally and chart the price history.
 
-# TECHNOLOGY
+## Features
 
-# Programming Language
+- Search products from Shpresa.al, 3vFejzo.al, and Neptun.al.
+- Choose a matching product when a store returns multiple results; accessory results are filtered from ordinary device searches.
+- Compare the lowest and highest prices returned by the selected stores.
+- Save store, product, price, URL, date, and time to `PriceHistory.csv`.
+- View saved price history and recent prices by store in the desktop interface.
+- Run either the desktop GUI or the command-line interface.
 
-Python: 
+## Requirements
 
-The core programming language used for developing the application.
+- Python 3.9 or later
+- Internet access for live store searches
 
-# Web Scraping
+Install the Python packages from PowerShell in the project folder:
 
-BeautifulSoup: A Python library used to parse HTML and XML documents for web scraping.
+```powershell
+python -m pip install requests beautifulsoup4 pandas matplotlib seaborn
+```
 
-Requests: A simple HTTP library for making requests to fetch web pages.
+Tkinter is included with most standard Windows Python installations. If Python reports that Tkinter is missing, install a Python distribution that includes the Tcl/Tk feature.
 
-Selenium WebDriver: A browser automation tool used for web scraping dynamic content that requires JavaScript execution.
+## Run PricePal
 
-# Data Processing and Analysis
+Start the desktop interface:
 
-Pandas: A powerful data manipulation and analysis library used for handling tabular data.
+```powershell
+python main.py
+```
 
-Datetime: A module for manipulating dates and times, essential for timestamping price data.
+Start the command-line interface:
 
-# Data Visualization
+```powershell
+python main.py --cli
+```
 
-Matplotlib: A plotting library used for creating static, animated, and interactive visualizations in Python.
+## Project files
 
-Seaborn: A statistical data visualization library based on Matplotlib, used for creating visually appealing and informative plots.
+- `main.py` — search orchestration, price comparison, CSV history, charts, and CLI entry point.
+- `gui.py` — Tkinter desktop interface.
+- `shpresa.py`, `fejzo.py`, `neptun.py` — store-specific search and price extraction.
+- `scraper_utils.py` — shared product matching, accessory filtering, and price parsing.
+- `PriceHistory.csv` — local saved price observations.
 
-# User Interface
+## Notes
 
-Command Line Interface (CLI): The primary user interface for interacting with the application.
-
-# Data Storage
-
-CSV (Comma-Separated Values): A simple file format used to store tabular data in plain text form. The project's price history data is stored in a CSV file.
-
-# Miscellaneous
-
-OS Module: Used for interacting with the operating system, particularly for checking file existence.
-
-Collections: Specifically, the defaultdict from the collections module, used for handling missing keys in dictionaries.
-
-# Project-Specific Modules
-
-shpresa.py: Contains functions for scraping product data from the Shpresa website.
-
-fejzo.py: Contains functions for scraping product data from the 3vFejzo website.
-
-neptun.py: Contains functions for scraping product data from the Neptun website.
-
-# Key Functions and Features
-
-Product Search: Allows users to search for a product across three different websites.
-
-Price Comparison: Compares the price of a product across the three websites and identifies the cheapest and most expensive options.
-
-Price History: Displays the historical price data of a product over time, with visualizations.
-
-Language Translation: Provides basic translations between English and Spanish.
-
-Data Saving: Saves the search results and price history data to a CSV file.
-
-# Visualization Enhancements
-
-# Interactive Plots: 
-
-Implemented using Matplotlib and Seaborn to provide dynamic and interactive visualizations.
-
-# Annotations: 
-
-Added to the plots to highlight significant price changes and drops.
-
-# Web Scraping Details:
-
-Static Content: Scraped using BeautifulSoup and Requests for straightforward HTML content.
-
-Dynamic Content: Handled using Selenium WebDriver to automate browsers and scrape content that requires JavaScript execution to load fully.
+Prices and product availability can change. Store websites may also change their pages or endpoints, which can require scraper updates. PricePal reports the prices returned by each store at search time; verify the final price and availability on the linked store page.
