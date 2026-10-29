@@ -612,6 +612,12 @@ def safe_live_item(item):
 @app.get("/")
 def index():
     owner_id()
+    return render_template("welcome.html")
+
+
+@app.get("/app")
+def web_app():
+    owner_id()
     return render_template("index.html")
 
 
