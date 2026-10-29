@@ -324,18 +324,56 @@ def product_jsonld_price(html, expected_title):
 def fetch_fejzo(query):
     s = http_session()
     base = "https://3vfejzo.al"
-    response = s.get(base + "/search?" + urlencode({"q":canonical_query(query)}), timeout=TIMEOUT)
-    response.raise_for_status()
-    soup = BeautifulSoup(response.text, "html.parser")
-    links, seen = [], set()
-    for a in soup.select('a[href*="/product/"]'):
-        h = a.get("href", "")
-        title_el = a.select_one("h3")
-        title = title_el.get_text(" ", strip=True) if title_el else a.get_text(" ", strip=True)
-        url = urljoin(base, h)
-        if title and url not in seen and matches(query,title) and not is_accessory(title,query):
-            seen.add(url)
-            links.append((title,url))
+    # 3V Fejzo's catalog has changed from the old product-card/search layout.
+    # Try the search routes first, then the current catalog page as a fallback.
+    s.headers.update({
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "sq-AL,sq;q=0.9,en-US;q=0.8,en;q=0.7",
+        "Referer": base + "/",
+    })
+    query_text = canonical_query(query)
+    listing_urls = [
+        base + "/search?" + urlencode({"q": query_text}),
+        base + "/search?" + urlencode({"query": query_text}),
+        base + "/?" + urlencode({"s": query_text}),
+        base + "/search",
+    ]
+    qnorm = normalize(query)
+    if any(term in qnorm for term in ("iphone", "samsung", "galaxy", "phone", "telefon", "pixel", "xiaomi", "redmi")):
+        listing_urls.append(base + "/products/telefona")
+
+    links, seen, last_error = [], set(), None
+    listing_reached = False
+    for listing_url in listing_urls:
+        try:
+            response = s.get(listing_url, timeout=TIMEOUT)
+            response.raise_for_status()
+        except requests.RequestException as exc:
+            last_error = exc
+            continue
+        listing_reached = True
+        soup = BeautifulSoup(response.text, "html.parser")
+        for a in soup.select('a[href*="/product/"], a[href*="/products/"]'):
+            href = a.get("href", "")
+            path = urlparse(href).path if href.startswith("http") else href
+            if re.fullmatch(r"/products?/[^/?#]+/?", path):
+                parts = path.strip("/").split("/")
+                if len(parts) >= 2 and parts[0] == "products" and parts[1].casefold() in {
+                    "telefona", "samsung", "apple", "xiaomi", "categories", "laptop", "laptops"
+                }:
+                    continue
+            title_el = a.select_one("h1,h2,h3,h4,[class*=title],[class*=name]")
+            title = title_el.get_text(" ", strip=True) if title_el else a.get_text(" ", strip=True)
+            title = re.sub(r"\s+", " ", title).strip()
+            url = urljoin(base, href)
+            if title and url not in seen and matches(query, title) and not is_accessory(title, query):
+                seen.add(url)
+                links.append((title, url))
+        if links:
+            break
+    if last_error and not listing_reached:
+        raise last_error
     def detail(pair):
         title,url=pair
         try:
@@ -368,8 +406,8 @@ def parse_site_price(text, currency="ALL"):
     return parse_price((m.group(1) or m.group(2))) if m else None
 
 
-def html_store_results(store, query, url, currency="ALL", card_selectors=()):
-    response=http_session().get(url,timeout=TIMEOUT)
+def html_store_results(store, query, url, currency="ALL", card_selectors=(), session=None):
+    response=(session or http_session()).get(url,timeout=TIMEOUT)
     response.raise_for_status()
     soup=BeautifulSoup(response.text,"html.parser")
     cards=[]
@@ -447,9 +485,39 @@ def fetch_gjirafa50(query):
 
 
 def fetch_ozone(query):
-    # Ozone uses PrestaShop. Its live search page returns .js-product-miniature
-    # cards with product links ending in .html and prices in Lekë.
-    return html_store_results("Ozone",query,"https://ozone.al/search?"+urlencode({"controller":"search","s":canonical_query(query)}),"ALL",(".js-product-miniature",".product-miniature"))
+    # Ozone uses PrestaShop. Try its canonical search route and common
+    # storefront aliases because the site has recently varied its host/routes.
+    base = "https://ozone.al"
+    s = http_session()
+    s.headers.update({
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "sq-AL,sq;q=0.9,en-US;q=0.8,en;q=0.7",
+        "Referer": base + "/",
+    })
+    term = canonical_query(query)
+    urls = [
+        base + "/search?" + urlencode({"controller": "search", "s": term}),
+        base + "/search?" + urlencode({"s": term}),
+        "https://www.ozone.al/search?" + urlencode({"controller": "search", "s": term}),
+    ]
+    last_error = None
+    reached_store = False
+    for url in urls:
+        try:
+            found = html_store_results(
+                "Ozone", query, url, "ALL",
+                (".js-product-miniature", ".product-miniature", "article.product", ".product-item"),
+                session=s,
+            )
+            reached_store = True
+            if found:
+                return found
+        except requests.RequestException as exc:
+            last_error = exc
+    if not reached_store and last_error:
+        raise last_error
+    return []
 
 
 def fetch_german_computers(query):
