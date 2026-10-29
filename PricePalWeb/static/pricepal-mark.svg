@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="PricePal">
+  <rect width="64" height="64" rx="16" fill="#101a14"/>
+  <path d="M10 48V16h18c9 0 14 5 14 13s-5 13-14 13H20v6zm10-15h8c3 0 5-1 5-4s-2-4-5-4h-8z" fill="#fff"/>
+  <path d="m34 48 11-17-11-15h10l5 8 5-8h10L53 31l11 17H54l-5-8-5 8z" fill="#b7e6bd"/>
+</svg>

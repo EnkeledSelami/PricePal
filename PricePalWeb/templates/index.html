@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#080b09"><meta name="description" content="Compare live product offers from Albanian and Kosovan retailers with PricePal.">
+  <title>PricePal — Compare smarter. Pay less.</title>
+  <link rel="icon" href="/static/pricepal-mark.svg?v=2" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/static/pricepal-mark.svg?v=2">
+  <link rel="stylesheet" href="/static/app.css?v=8">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#home" aria-label="PricePal home"><img class="brand-logo" src="/static/pricepal-logo.png?v=1" alt="PricePal — Compare Smarter. Pay Less."></a>
+      <div class="side-label">WORKSPACE</div>
+      <nav class="side-nav" aria-label="Main navigation">
+        <button class="nav-item active" data-view="home"><span class="nav-icon">⌂</span><span>Discover</span></button>
+        <button class="nav-item" data-view="compare"><span class="nav-icon">⇄</span><span>Compare offers</span><em id="compare-count">0</em></button>
+        <button class="nav-item" data-view="history"><span class="nav-icon">◷</span><span>Price history</span></button>
+        <button class="nav-item" data-view="wishlist"><span class="nav-icon">♡</span><span>Wishlist</span><em id="wish-count">0</em></button>
+        <button class="nav-item" data-view="alerts"><span class="nav-icon">♧</span><span>Price alerts</span><em id="alert-count">0</em></button>
+        <button class="nav-item" data-view="data"><span class="nav-icon">▤</span><span>My price data</span></button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="data-status"><span class="status-dot"></span><div><b>Live retailer checks</b><small>10 stores · Albania &amp; Kosovo</small></div></div>
+        <div class="sidebar-note">Prices are checked when you search. Always verify the final offer with the retailer.</div>
+        <a class="made-by" href="https://www.kelixel.com" target="_blank" rel="noreferrer">Made by KeliXel ↗</a>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar"><button class="mobile-menu" id="mobile-menu" aria-label="Open navigation">☰</button><div class="breadcrumbs"><span>PricePal</span><b>/</b><strong id="crumb">Discover</strong></div><div class="top-actions"><span class="live-pill"><i></i> <span data-i18n="Live search">Live search</span></span><button class="language-button" id="language-toggle" type="button" aria-label="Change language" title="Change language"><span>🇬🇧</span><b>EN</b></button><button class="icon-button" id="notify-button" aria-label="Notifications">♧<span class="notification-dot" id="notification-dot"></span></button><div class="avatar">K</div></div></header>
+      <div class="content-wrap">
+        <section class="view active" id="view-home">
+          <div class="hero-row"><div><div class="eyebrow"><span class="eyebrow-line"></span> ALBANIAN &amp; KOSOVAN PRICE INTELLIGENCE</div><h1>Find the right product.<br><span>Pay the right price.</span></h1><p class="hero-copy">Choose which retailers to search across technology, appliances, home, furniture and DIY. Each store has its own catalogue, so some searches naturally return no match at certain stores.</p></div><div class="hero-stats"><div><b id="stat-stores">10</b><span>stores selected</span></div><div><b id="stat-observations">0</b><span>price observations saved</span></div></div></div>
+          <form class="search-box" id="search-form"><span class="search-symbol">⌕</span><input id="search-input" type="search" placeholder="Search a product, brand or model…" autocomplete="off" aria-label="Search products"><button class="primary-button" type="submit"><span>Search stores</span><b>→</b></button><div class="search-hint">Try <button type="button" class="suggestion">iPhone 17 Pro Max</button><button type="button" class="suggestion">Refrigerator</button><button type="button" class="suggestion">Garden tools</button></div></form>
+          <section class="retailer-picker" aria-label="Choose retailers"><div class="retailer-picker-heading"><div><b>Choose stores for this search</b><span id="retailer-selection-count">10 stores selected</span></div><label class="select-all-retailers"><input type="checkbox" id="retailer-select-all" checked><span>Select all</span></label></div><div id="retailer-picker-list" class="retailer-picker-list"></div></section>
+          <div class="section-heading"><div><div class="eyebrow">CURRENT STORE RESULTS</div><h2 id="results-heading">Ready when you are</h2><p id="results-subtitle">Choose stores and search their live catalogues.</p></div><div class="result-tools" id="result-tools" hidden><select id="sort-select" aria-label="Sort results"><option value="price">Lowest price (Lekë equivalent)</option><option value="store">Store name</option><option value="name">Product name</option></select><button class="quiet-button" id="compare-selected">Compare selected <span id="compare-selected-count">0</span></button></div></div>
+          <div class="search-progress" id="search-progress" hidden><span></span><b id="search-progress-label">Checking retailer listings…</b><small id="search-progress-detail">Each store responds independently.</small></div>
+          <div class="store-status-grid" id="store-status"></div>
+          <div class="result-grid" id="results-grid"></div>
+          <div class="empty-state" id="home-empty"><div class="empty-mark">⌕</div><b>Your next great deal starts with a search.</b><span>Results are requested live from each retailer; no demo prices are mixed in.</span></div>
+          <div class="trust-note"><span>ⓘ</span><span>Live offers can change or become unavailable. Check the retailer’s product page for final price, variant, delivery and stock.</span></div>
+        </section>
+
+        <section class="view" id="view-compare">
+          <div class="page-heading"><div class="eyebrow">SMART PRICE BREAKDOWN</div><h1>Compare offers</h1><p>See the price gap, currency-adjusted ranking, and retailer details in one clear view.</p></div>
+          <div class="compare-toolbar"><div><b id="compare-title">No offers selected</b><span id="compare-caption">Select offers from Discover to add them here.</span></div><button class="quiet-button" id="save-comparison">Save comparison snapshot</button></div>
+          <div class="compare-insights" id="compare-insights" hidden></div>
+          <div id="comparison-grid" class="compare-grid"></div><div id="compare-empty" class="empty-state"><div class="empty-mark">⇄</div><b>Build a comparison from live offers.</b><span>Use “Add to compare” on any search result.</span><button class="primary-button small" data-go="home">Search products →</button></div>
+          <p class="compare-disclaimer" id="compare-disclaimer" hidden>Prices are compared as listed; product variants, delivery and stock may differ. EUR offers use €1 = 100 Lekë for ranking.</p>
+          <div class="panel notification-panel" style="margin-top:18px"><div class="panel-head"><div><b>Saved comparison snapshots</b><span>Past comparison values stay as they were when saved.</span></div></div><div id="saved-comparisons" class="notification-list"></div></div>
+        </section>
+
+        <section class="view" id="view-history">
+          <div class="page-heading"><div class="eyebrow">PRICE MEMORY</div><h1>Price history</h1><p>Use your Discover search phrase, then choose which matching retailers to compare.</p></div>
+          <div class="panel history-panel"><div class="history-toolbar"><div><b>Price movement</b><span id="history-chart-note">Recorded checks from your searches and imported CSV.</span></div><div class="history-controls"><input id="history-query" placeholder="Search phrase from Discover…" aria-label="Filter history by search phrase"></div></div><div class="history-range" role="group" aria-label="History time range"><button class="range-button" data-history-range="today">Today</button><button class="range-button" data-history-range="week">This week</button><button class="range-button" data-history-range="month">This month</button><button class="range-button active" data-history-range="90">90 days</button></div><div class="history-store-filter"><div class="history-store-heading"><b>Matching retailers</b><button type="button" class="store-all-button" id="history-stores-all">All stores</button></div><div class="history-store-options" id="history-stores"></div></div><div class="chart-wrap"><canvas id="history-chart" aria-label="Price history chart"></canvas><div id="chart-empty" class="chart-empty">No saved prices match this search and time range.</div></div><div class="chart-legend" id="chart-legend"></div></div>
+          <div class="panel table-panel"><div class="panel-head"><div><b>Recent observations</b><span id="history-count">0 recorded prices</span></div><span class="history-table-note" id="history-table-note">All matching observations are shown.</span></div><div class="table-scroll"><table><thead><tr><th>PRODUCT</th><th>RETAILER</th><th>PRICE</th><th>CHECKED</th><th>SOURCE</th></tr></thead><tbody id="history-rows"></tbody></table></div></div>
+          <div class="trust-note"><span>ⓘ</span><span>History begins when a price is first checked or imported. PricePal does not invent past prices.</span></div>
+        </section>
+
+        <section class="view" id="view-wishlist">
+          <div class="page-heading"><div class="eyebrow">YOUR SHORTLIST</div><h1>Wishlist</h1><p>Keep products and offers together while you decide what to buy.</p></div>
+          <div id="wishlist-grid" class="saved-grid"></div><div id="wishlist-empty" class="empty-state"><div class="empty-mark">♡</div><b>Nothing saved yet.</b><span>Add a product from live search results to build your list.</span><button class="primary-button small" data-go="home">Discover products →</button></div>
+        </section>
+
+        <section class="view" id="view-alerts">
+          <div class="page-heading"><div class="eyebrow">PRICE WATCH</div><h1>Price alerts</h1><p>Create rules for products you’re tracking. Alerts are evaluated when a fresh retailer observation is collected.</p></div>
+          <div class="alert-explainer"><span>◷</span><div><b>Checks happen on fresh searches</b><p>For automatic checks while you are away, the hosted deployment needs a scheduled worker. Browser notifications and email delivery also need permission/provider setup.</p></div></div>
+          <div id="alerts-list" class="saved-grid"></div><div id="alerts-empty" class="empty-state"><div class="empty-mark">♧</div><b>No active price rules.</b><span>Create one from a live offer using “Set alert”.</span></div>
+          <div class="panel notification-panel"><div class="panel-head"><div><b>Alert activity</b><span>Price conditions met during fresh checks.</span></div><button class="quiet-button" id="mark-read">Mark all read</button></div><div id="notification-list" class="notification-list"></div></div>
+        </section>
+
+        <section class="view" id="view-data">
+          <div class="page-heading"><div class="eyebrow">PORTABILITY & DATA</div><h1>Your price data</h1><p>Import your existing PricePal CSV history and export records from this web version.</p></div>
+          <div class="data-cards"><div class="panel data-card"><span class="data-icon">⇧</span><h3>Bring your CSV history</h3><p>Import rows from the desktop app’s <code>PriceHistory.csv</code>. Supported columns include Site, Product Name, Price, URL, Date and Time.</p><form id="import-form"><label class="file-drop" for="csv-file"><span>Choose a CSV file</span><input type="file" id="csv-file" accept=".csv,text/csv" required></label><button class="primary-button small" type="submit">Import history →</button><div class="inline-feedback" id="import-feedback"></div></form></div><div class="panel data-card"><span class="data-icon">⇩</span><h3>Export observations</h3><p>Download the price checks recorded by this web version as a CSV file.</p><button class="quiet-button" id="export-csv">Download CSV</button></div><div class="panel data-card"><span class="data-icon">▤</span><h3>Data currently recorded</h3><div class="data-metrics"><div><b id="data-products">0</b><span>products</span></div><div><b id="data-offers">0</b><span>offers</span></div><div><b id="data-observations">0</b><span>observations</span></div></div><small>SQLite stores this deployment’s product and price history. Demo data is not mixed into live prices.</small></div></div>
+          <div class="data-disclaimer"><b>About retailer checks</b><p>Live availability depends on retailer site uptime and access rules. The web backend uses the same publicly accessible store search sources currently used by the Python project. Retailers may change their endpoints or restrict automated access.</p></div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <div class="toast-region" id="toast-region" aria-live="polite"></div>
+  <dialog id="alert-dialog"><form method="dialog" class="dialog-card" id="alert-form"><button class="dialog-close" id="alert-close" type="button" aria-label="Close">×</button><div class="eyebrow">PRICE WATCH</div><h2>Set a price alert</h2><p id="alert-product-name"></p><input type="hidden" id="alert-product-id"><input type="hidden" id="alert-offer-id"><input type="hidden" id="alert-currency"><label>Alert type<select id="alert-kind"><option value="target">Target price</option><option value="drop">Price drop percentage</option><option value="low">New recorded low</option><option value="back_in_stock">Back in stock</option><option value="change">Any price change</option></select></label><label id="alert-threshold-wrap"><span id="alert-threshold-label">Target price in Lekë</span><input id="alert-threshold" type="text" inputmode="decimal" autocomplete="off" placeholder="e.g. 120,000"></label><button class="primary-button" id="create-alert" type="button">Create alert →</button></form></dialog>
+  <script src="/static/app.js?v=10" defer></script>
+</body>
+</html>
